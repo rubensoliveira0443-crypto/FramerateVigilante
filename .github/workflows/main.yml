@@ -1,0 +1,35 @@
+name: Compilar Mod ASI
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Baixar codigo do repositorio
+      uses: actions/checkout@v4
+
+    - name: Baixar plugin-sdk
+      run: git clone https://github.com/DK22Pac/plugin-sdk.git C:\plugin-sdk
+
+    - name: Configurar MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Compilar o arquivo .ASI (San Andreas)
+      env:
+        PLUGIN_SDK_DIR: C:\plugin-sdk
+      # Usamos exatamente os nomes que estao no seu arquivo .sln
+      run: msbuild FramerateVigilante.sln /p:Configuration="GTASA Release" /p:Platform="x86" /p:PlatformToolset=v143
+
+    - name: Disponibilizar para Download
+      uses: actions/upload-artifact@v4
+      with:
+        name: FramerateVigilante-Pronto
+        # O MSBuild costuma criar uma pasta com o nome da configuracao
+        path: |
+          ./GTASA Release/FramerateVigilante.asi
+          ./FramerateVigilante/GTASA Release/FramerateVigilante.asi
