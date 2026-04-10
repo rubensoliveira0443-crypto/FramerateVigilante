@@ -122,69 +122,69 @@ public:
 			}; MakeInline<AimingRifleWalkFix>(0x61E0CA, 0x61E0CA + 6);
 
 
-			struct SwimSpeedFix
-			{
-				void operator()(reg_pack& regs)
-				{
-					*(float*)(regs.esp + 0x1C) *= 1.0f / (CTimer::ms_fTimeStep / magic);
-					*(float*)(regs.esp + 0x20) *= 1.0f / (CTimer::ms_fTimeStep / magic);
-					*(float*)(regs.esp + 0x18) *= 1.0f / (CTimer::ms_fTimeStep / magic);
-
-					float f = *(float*)(regs.eax + 0x00);
-					asm_fld_st1();
-					asm_fmul(f);
-					asm_fld_st2();
-				}
-			}; MakeInline<SwimSpeedFix>(0x68A50E, 0x68A50E + 6);
-
-
-			struct BuoyancySpeedFix
-			{
-				void operator()(reg_pack& regs)
-				{
-					float f = CTimer::ms_fTimeStep;
-					CPhysical* physical = (CPhysical*)regs.eax;
-					if (physical->m_nType == eEntityType::ENTITY_TYPE_PED)
-					{
-						CPed* ped = (CPed*)regs.eax;
-						if (ped->IsPlayer()) // we only need this for player, due to swim bug
-						{
-							f = (1.0f + ((CTimer::ms_fTimeStep / magic) / 1.5f)) * (CTimer::ms_fTimeStep / magic);
-						}
-					}
-					asm_fmul(f);
-				}
-			}; MakeInline<BuoyancySpeedFix>(0x6C27AE, 0x6C27AE + 6);
+//			struct SwimSpeedFix
+//			{
+//				void operator()(reg_pack& regs)
+//				{
+//					*(float*)(regs.esp + 0x1C) *= 1.0f / (CTimer::ms_fTimeStep / magic);
+//					*(float*)(regs.esp + 0x20) *= 1.0f / (CTimer::ms_fTimeStep / magic);
+//					*(float*)(regs.esp + 0x18) *= 1.0f / (CTimer::ms_fTimeStep / magic);
+//
+//					float f = *(float*)(regs.eax + 0x00);
+//					asm_fld_st1();
+//					asm_fmul(f);
+//					asm_fld_st2();
+//				}
+//			}; MakeInline<SwimSpeedFix>(0x68A50E, 0x68A50E + 6);
 
 
-			struct DiveFix
-			{
-				void operator()(reg_pack& regs)
-				{
-					float f = -0.1f * (CTimer::ms_fTimeStep / magic);
-					asm_fmul(f);
-				}
-			}; MakeInline<DiveFix>(0x68A42B, 0x68A42B + 6);
+//			struct BuoyancySpeedFix
+//			{
+//				void operator()(reg_pack& regs)
+//				{
+//					float f = CTimer::ms_fTimeStep;
+//					CPhysical* physical = (CPhysical*)regs.eax;
+//					if (physical->m_nType == eEntityType::ENTITY_TYPE_PED)
+//					{
+//						CPed* ped = (CPed*)regs.eax;
+//						if (ped->IsPlayer()) // we only need this for player, due to swim bug
+//						{
+//							f = (1.0f + ((CTimer::ms_fTimeStep / magic) / 1.5f)) * (CTimer::ms_fTimeStep / magic);
+//						}
+//					}
+//					asm_fmul(f);
+//				}
+//			}; MakeInline<BuoyancySpeedFix>(0x6C27AE, 0x6C27AE + 6);
 
 
-			struct DiveSprintComeToSurfaceFix
-			{
-				void operator()(reg_pack& regs)
-				{
-					float f = 1.0f / (CTimer::ms_fTimeStep / magic);
-					asm_fadd(0.01f);
-					asm_fmul(f);
-				}
-			}; MakeInline<DiveSprintComeToSurfaceFix>(0x68A4CA, 0x68A4CA + 6);
+//			struct DiveFix
+//			{
+//				void operator()(reg_pack& regs)
+//				{
+//					float f = -0.1f * (CTimer::ms_fTimeStep / magic);
+//					asm_fmul(f);
+//				}
+//			}; MakeInline<DiveFix>(0x68A42B, 0x68A42B + 6);
 
-			struct SkimmerResistanceFix
-			{
-				void operator()(reg_pack& regs)
-				{
-					float f = 30.0f * (CTimer::ms_fTimeStep / magic);
-					asm_fmul(f);
-				}
-			}; MakeInline<SkimmerResistanceFix>(0x6D2771, 0x6D2771 + 6);
+
+//			struct DiveSprintComeToSurfaceFix
+//			{
+//				void operator()(reg_pack& regs)
+//				{
+//					float f = 1.0f / (CTimer::ms_fTimeStep / magic);
+//					asm_fadd(0.01f);
+//					asm_fmul(f);
+//				}
+//			}; MakeInline<DiveSprintComeToSurfaceFix>(0x68A4CA, 0x68A4CA + 6);
+
+//			struct SkimmerResistanceFix
+//			{
+//				void operator()(reg_pack& regs)
+//				{
+//					float f = 30.0f * (CTimer::ms_fTimeStep / magic);
+//					asm_fmul(f);
+//				}
+//			}; MakeInline<SkimmerResistanceFix>(0x6D2771, 0x6D2771 + 6);
 
 		#endif // defined(GTASA)
 
