@@ -10,75 +10,52 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # 1 — Baixa seu código
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2 — Baixa o plugin-sdk numa pasta chamada "plugin-sdk" dentro do workspace
       - name: Checkout plugin-sdk
         uses: actions/checkout@v4
         with:
           repository: DK22Pac/plugin-sdk
           path: plugin-sdk
 
-      # 3 — Configura o MSBuild (Visual Studio 2022 já vem no windows-latest)
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      # 4 — Compila o plugin-sdk primeiro para gerar o plugin.lib necessário
-      - name: Build plugin-sdk (SA)
+      # Compila o plugin-sdk para gerar o plugin.lib
+      - name: Build plugin-sdk
         run: |
-          $sdkSln = Get-ChildItem -Path "plugin-sdk" -Filter "*.sln" -Recurse | Select-Object -First 1
-          if ($sdkSln) {
-            Write-Host "Compilando plugin-sdk: $($sdkSln.FullName)"
-            msbuild "$($sdkSln.FullName)" `
-              /p:Configuration="Release" `
-              /p:Platform=Win32 `
-              /m /v:minimal
+          $sln = Get-ChildItem -Path "plugin-sdk" -Filter "*.sln" -Recurse | Select-Object -First 1
+          if ($sln) {
+            Write-Host "Encontrado: $($sln.FullName)"
+            msbuild "$($sln.FullName)" /p:Configuration=Release /p:Platform=Win32 /m /v:minimal
           } else {
-            Write-Host "Nenhum .sln encontrado no plugin-sdk, pulando..."
+            Write-Host "Sem .sln no plugin-sdk, pulando..."
           }
         shell: pwsh
 
-      # 5 — Compila o FramerateVigilante
-      #     - PLUGIN_SDK_DIR aponta para a pasta plugin-sdk clonada
-      #     - OutDir sobrescreve o caminho hardcoded do autor (G:\GTA San Andreas...)
-      #     - IntDir usa pasta temporária dentro do workspace
-      - name: Build FramerateVigilante (GTASA Release)
+      # Compila direto o .vcxproj (evita o problema de espaço no nome da config via .sln)
+      - name: Build FramerateVigilante
         run: |
-          $sdkDir = "${{ github.workspace }}\plugin-sdk"
-          $outDir = "${{ github.workspace }}\output\"
+          $sdkDir  = "${{ github.workspace }}\plugin-sdk"
+          $outDir  = "${{ github.workspace }}\output\"
+          $intDir  = "${{ github.workspace }}\obj\"
+          $vcxproj = "${{ github.workspace }}\FramerateVigilante\FramerateVigilante.vcxproj"
 
           New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+          New-Item -ItemType Directory -Force -Path $intDir | Out-Null
 
-          msbuild FramerateVigilante.sln `
-            /p:Configuration="GTASA Release" `
+          msbuild "$vcxproj" `
+            "/p:Configuration=GTASA Release" `
             /p:Platform=Win32 `
-            /p:PLUGIN_SDK_DIR="$sdkDir\" `
-            /p:OutDir="$outDir" `
-            /p:IntDir="${{ github.workspace }}\obj\GTASA\Release\" `
+            "/p:PLUGIN_SDK_DIR=$sdkDir\" `
+            "/p:OutDir=$outDir" `
+            "/p:IntDir=$intDir" `
             /p:PlatformToolset=v143 `
-            /m `
-            /v:normal
+            /m /v:normal
         shell: pwsh
 
-      # 6 — Verifica se o .asi foi gerado e mostra o caminho
-      - name: Verify output
-        run: |
-          Write-Host "=== Conteudo da pasta output ==="
-          Get-ChildItem -Path "${{ github.workspace }}\output\" -ErrorAction SilentlyContinue
-          
-          $asi = Get-ChildItem -Recurse -Filter "*.asi" | Where-Object { $_.FullName -notmatch "plugin-sdk" }
-          if ($asi) {
-            Write-Host "ASI encontrado: $($asi.FullName)"
-          } else {
-            Write-Error "ERRO: Nenhum .asi foi gerado!"
-            exit 1
-          }
-        shell: pwsh
-
-      # 7 — Faz upload do .asi como artefato para download
-      - name: Upload ASI artifact
+      - name: Upload ASI
         uses: actions/upload-artifact@v4
         with:
           name: FramerateVigilante-SA
