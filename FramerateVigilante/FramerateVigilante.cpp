@@ -410,7 +410,7 @@ public:
 	//				asm_fadd(f);
 	//			}
 	//		}; MakeInline<HeliRotorIncreaseSpeedB>(0x6C4F29, 0x6C4F29 + 6);
-	//	#endif
+		#endif
 
 
 		#if defined(GTAVC)
