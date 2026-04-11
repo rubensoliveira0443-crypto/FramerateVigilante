@@ -209,7 +209,7 @@ public:
 					asm_fmul(CTimer::ms_fTimeStep);
 					asm_fadd(*(float*)(regs.esi + 0x828));
 				}
-			}; MakeInline<CarWheelOnRailsSpinFix1>(0x6B523F, 0x6B523F + 6);
+	//		}; MakeInline<CarWheelOnRailsSpinFix1>(0x6B523F, 0x6B523F + 6);
 
 			struct CarWheelOnRailsSpinFix2
 			{
@@ -218,7 +218,7 @@ public:
 					asm_fmul(CTimer::ms_fTimeStep);
 					asm_fadd(*(float*)(regs.esi + 0x82C));
 				}
-			}; MakeInline<CarWheelOnRailsSpinFix2>(0x6B524F, 0x6B524F + 6);
+	//		}; MakeInline<CarWheelOnRailsSpinFix2>(0x6B524F, 0x6B524F + 6);
 
 			struct CarWheelOnRailsSpinFix3
 			{
@@ -227,7 +227,7 @@ public:
 					asm_fmul(CTimer::ms_fTimeStep);
 					asm_fadd(*(float*)(regs.esi + 0x830));
 				}
-			}; MakeInline<CarWheelOnRailsSpinFix3>(0x6B525D, 0x6B525D + 6);
+	//		}; MakeInline<CarWheelOnRailsSpinFix3>(0x6B525D, 0x6B525D + 6);
 
 			struct CarWheelOnRailsSpinFix4
 			{
@@ -236,7 +236,7 @@ public:
 					asm_fmul(CTimer::ms_fTimeStep);
 					asm_fadd(*(float*)(regs.esi + 0x834));
 				}
-			}; MakeInline<CarWheelOnRailsSpinFix4>(0x6B5269, 0x6B5269 + 6);
+	//		}; MakeInline<CarWheelOnRailsSpinFix4>(0x6B5269, 0x6B5269 + 6);
 
 		#endif // defined(GTASA)
 
@@ -252,44 +252,44 @@ public:
 
 
 			// Burnout
+	//	#if defined(GTASA)
+	//		struct BurnoutFix
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				float f = 3000.0f * (CTimer::ms_fTimeStep / magic);
+	//				asm_fld(f);
+	//			}
+	//		};
+	//		MakeInline<BurnoutFix>(0x6A4FE6, 0x6A4FE6 + 6);
+	//	#endif defined(GTASA)
+
+
+	//		struct CarSlowDownSpeedFix
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				float f = 0.9f * (CTimer::ms_fTimeStep / magic);
+	//				asm_fld(f);
+	//			}
+	//		};
+
+	//		struct CarSlowDownSpeedFixMul
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				float f = 0.9f * (CTimer::ms_fTimeStep / magic);
+	//				asm_fmul(f);
+	//			}
+	//		};
+
+
 		#if defined(GTASA)
-			struct BurnoutFix
-			{
-				void operator()(reg_pack& regs)
-				{
-					float f = 3000.0f * (CTimer::ms_fTimeStep / magic);
-					asm_fld(f);
-				}
-			};
-			MakeInline<BurnoutFix>(0x6A4FE6, 0x6A4FE6 + 6);
-		#endif defined(GTASA)
-
-
-			struct CarSlowDownSpeedFix
-			{
-				void operator()(reg_pack& regs)
-				{
-					float f = 0.9f * (CTimer::ms_fTimeStep / magic);
-					asm_fld(f);
-				}
-			};
-
-			struct CarSlowDownSpeedFixMul
-			{
-				void operator()(reg_pack& regs)
-				{
-					float f = 0.9f * (CTimer::ms_fTimeStep / magic);
-					asm_fmul(f);
-				}
-			};
-
-
-		#if defined(GTASA)
-			MakeInline<CarSlowDownSpeedFix>(0x6D6E69, 0x6D6E69 + 6);
-			MakeInline<CarSlowDownSpeedFix>(0x6D6EA8, 0x6D6EA8 + 6);
-			MakeInline<CarSlowDownSpeedFix>(0x6D767F, 0x6D767F + 6);
-			MakeInline<CarSlowDownSpeedFix>(0x6D76AB, 0x6D76AB + 6);
-			MakeInline<CarSlowDownSpeedFix>(0x6D76CD, 0x6D76CD + 6);
+	//		MakeInline<CarSlowDownSpeedFix>(0x6D6E69, 0x6D6E69 + 6);
+	//		MakeInline<CarSlowDownSpeedFix>(0x6D6EA8, 0x6D6EA8 + 6);
+	//		MakeInline<CarSlowDownSpeedFix>(0x6D767F, 0x6D767F + 6);
+	//		MakeInline<CarSlowDownSpeedFix>(0x6D76AB, 0x6D76AB + 6);
+	//		MakeInline<CarSlowDownSpeedFix>(0x6D76CD, 0x6D76CD + 6);
 		#endif
 
 		#if defined(GTAVC)
@@ -390,27 +390,27 @@ public:
 
 
 		#if defined(GTASA)
-			struct HeliRotorIncreaseSpeedA
-			{
-				void operator()(reg_pack& regs)
-				{
-					float* rotorFinalSpeed = ReadMemory<float*>(0x006C4EFE + 2, false); // MixSets adaptation
-					float f = ((*rotorFinalSpeed / 220.0f) * 3.0f) * (CTimer::ms_fTimeStep / magic);
-					asm_fadd(f);
-				}
-			}; MakeInline<HeliRotorIncreaseSpeedA>(0x6C4F37, 0x6C4F37 + 6);
+	//		struct HeliRotorIncreaseSpeedA
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				float* rotorFinalSpeed = ReadMemory<float*>(0x006C4EFE + 2, false); // MixSets adaptation
+	//				float f = ((*rotorFinalSpeed / 220.0f) * 3.0f) * (CTimer::ms_fTimeStep / magic);
+	//				asm_fadd(f);
+	//			}
+	//		}; MakeInline<HeliRotorIncreaseSpeedA>(0x6C4F37, 0x6C4F37 + 6);
 
 
-			struct HeliRotorIncreaseSpeedB
-			{
-				void operator()(reg_pack& regs)
-				{
-					float* rotorFinalSpeed = ReadMemory<float*>(0x006C4EFE + 2, false); // MixSets adaptation
-					float f = (*rotorFinalSpeed / 220.0f) * (CTimer::ms_fTimeStep / magic);
-					asm_fadd(f);
-				}
-			}; MakeInline<HeliRotorIncreaseSpeedB>(0x6C4F29, 0x6C4F29 + 6);
-		#endif
+	//		struct HeliRotorIncreaseSpeedB
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				float* rotorFinalSpeed = ReadMemory<float*>(0x006C4EFE + 2, false); // MixSets adaptation
+	//				float f = (*rotorFinalSpeed / 220.0f) * (CTimer::ms_fTimeStep / magic);
+	//				asm_fadd(f);
+	//			}
+	//		}; MakeInline<HeliRotorIncreaseSpeedB>(0x6C4F29, 0x6C4F29 + 6);
+	//	#endif
 
 
 		#if defined(GTAVC)
