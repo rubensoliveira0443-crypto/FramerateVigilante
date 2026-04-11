@@ -202,40 +202,40 @@ public:
 
 
 		#if defined(GTASA)
-			struct CarWheelOnRailsSpinFix1
-			{
-				void operator()(reg_pack& regs)
-				{
-					asm_fmul(CTimer::ms_fTimeStep);
-					asm_fadd(*(float*)(regs.esi + 0x828));
-				}
+	//		struct CarWheelOnRailsSpinFix1
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				asm_fmul(CTimer::ms_fTimeStep);
+	//				asm_fadd(*(float*)(regs.esi + 0x828));
+	//			}
 	//		}; MakeInline<CarWheelOnRailsSpinFix1>(0x6B523F, 0x6B523F + 6);
 
-			struct CarWheelOnRailsSpinFix2
-			{
-				void operator()(reg_pack& regs)
-				{
-					asm_fmul(CTimer::ms_fTimeStep);
-					asm_fadd(*(float*)(regs.esi + 0x82C));
-				}
+	//		struct CarWheelOnRailsSpinFix2
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				asm_fmul(CTimer::ms_fTimeStep);
+	//				asm_fadd(*(float*)(regs.esi + 0x82C));
+	//			}
 	//		}; MakeInline<CarWheelOnRailsSpinFix2>(0x6B524F, 0x6B524F + 6);
 
-			struct CarWheelOnRailsSpinFix3
-			{
-				void operator()(reg_pack& regs)
-				{
-					asm_fmul(CTimer::ms_fTimeStep);
-					asm_fadd(*(float*)(regs.esi + 0x830));
-				}
+	//		struct CarWheelOnRailsSpinFix3
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				asm_fmul(CTimer::ms_fTimeStep);
+	//				asm_fadd(*(float*)(regs.esi + 0x830));
+	//			}
 	//		}; MakeInline<CarWheelOnRailsSpinFix3>(0x6B525D, 0x6B525D + 6);
 
-			struct CarWheelOnRailsSpinFix4
-			{
-				void operator()(reg_pack& regs)
-				{
-					asm_fmul(CTimer::ms_fTimeStep);
-					asm_fadd(*(float*)(regs.esi + 0x834));
-				}
+	//		struct CarWheelOnRailsSpinFix4
+	//		{
+	//			void operator()(reg_pack& regs)
+	//			{
+	//				asm_fmul(CTimer::ms_fTimeStep);
+	//				asm_fadd(*(float*)(regs.esi + 0x834));
+	//			}
 	//		}; MakeInline<CarWheelOnRailsSpinFix4>(0x6B5269, 0x6B5269 + 6);
 
 		#endif // defined(GTASA)
@@ -252,7 +252,7 @@ public:
 
 
 			// Burnout
-	//	#if defined(GTASA)
+		#if defined(GTASA)
 	//		struct BurnoutFix
 	//		{
 	//			void operator()(reg_pack& regs)
@@ -262,7 +262,7 @@ public:
 	//			}
 	//		};
 	//		MakeInline<BurnoutFix>(0x6A4FE6, 0x6A4FE6 + 6);
-	//	#endif defined(GTASA)
+		#endif defined(GTASA)
 
 
 	//		struct CarSlowDownSpeedFix
